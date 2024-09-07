@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.orionlibs</groupId>
-    <artifactId>project-name</artifactId>
-    <version>0.0.1</version>
-    <name>name</name>
-    <description>description</description>
-    <url>https://github.com/orionlibs/project-name</url>
+    <artifactId>orion-llm4j-train</artifactId>
+    <version>1.0.0</version>
+    <name>Orion LLM4J Train</name>
+    <description>Java implementation of large language model training </description>
+    <url>https://github.com/orionlibs/orion-llm4j-train</url>
     
     
     <properties>
@@ -17,9 +17,9 @@
 
 
     <scm>
-        <url>https://github.com/orionlibs/project-name</url>
-        <connection>scm:git:https://github.com/orionlibs/project-name.git</connection>
-        <developerConnection>scm:git:ssh://github.com/orionlibs/project-name.git</developerConnection>
+        <url>https://github.com/orionlibs/orion-llm4j-train</url>
+        <connection>scm:git:https://github.com/orionlibs/orion-llm4j-train.git</connection>
+        <developerConnection>scm:git:ssh://github.com/orionlibs/orion-llm4j-train.git</developerConnection>
     </scm>
 
 
