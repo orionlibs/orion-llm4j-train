@@ -1,0 +1,8 @@
+#!/bin/bash
+#$ ./tag-build-publish-to-maven release/1.0.0 v1.0.0
+git checkout -b $1 origin/main
+git push -u origin $1
+git tag -a $2 -m "created release tag"
+git push origin $2
+mvn -s C:/Users/neo/.m2/settingsMavenCentral.xml clean deploy
+git switch main
