@@ -23,4 +23,17 @@ public class ATest
             return "";
         }
     }
+
+
+    protected String loadTestResource(String fileLocation)
+    {
+        try
+        {
+            return IOUtils.toString(this.getClass().getResourceAsStream(fileLocation));
+        }
+        catch(IOException e)
+        {
+            return "";
+        }
+    }
 }

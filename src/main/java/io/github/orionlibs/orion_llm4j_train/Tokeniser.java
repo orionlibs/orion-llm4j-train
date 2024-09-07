@@ -53,7 +53,7 @@ public abstract class Tokeniser
             int p0 = pair.getFirst();
             int p1 = pair.getSecond();
             int idx = entry.getValue();
-            // Concatenate byte arrays from vocab[p0] and vocab[p1]
+            // Concatenate byte arrays from vocabulary.get(p0) and vocabulary.get(p1)
             byte[] mergedBytes = new byte[vocabulary.get(p0).length + vocabulary.get(p1).length];
             System.arraycopy(vocabulary.get(p0), 0, mergedBytes, 0, vocabulary.get(p0).length);
             System.arraycopy(vocabulary.get(p1), 0, mergedBytes, vocabulary.get(p0).length, vocabulary.get(p1).length);

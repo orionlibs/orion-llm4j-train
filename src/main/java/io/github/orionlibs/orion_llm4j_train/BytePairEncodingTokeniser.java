@@ -5,6 +5,7 @@ import io.github.orionlibs.orion_tuple.Pair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,9 +75,24 @@ public class BytePairEncodingTokeniser extends Tokeniser
     public List<Integer> encode(String text)
     {
         byte[] textBytes = text.getBytes(StandardCharsets.UTF_8);
+        List<Byte> textBytesToUse = new ArrayList<>();
+        for(byte textByte : textBytes)
+        {
+            if(textByte > 0)
+            {
+                textBytesToUse.add(textByte);
+            }
+        }
+        textBytes = new byte[textBytesToUse.size()];
+        for(int i = 0; i < textBytesToUse.size(); i++)
+        {
+            textBytes[i] = textBytesToUse.get(i);
+        }
+        byte[] textBytes2 = new byte[textBytes.length];
+        System.arraycopy(textBytes, 0, textBytes2, 0, textBytes2.length);
         //list of integers in range 0..255
         List<Integer> tokenIDs = IntStream.range(0, textBytes.length)
-                        .mapToObj(i -> (int)textBytes[i])   // box each byte as Byte
+                        .mapToObj(i -> (int)textBytes2[i])   // box each byte as Byte
                         .collect(Collectors.toList());
         while(tokenIDs.size() >= 2)
         {

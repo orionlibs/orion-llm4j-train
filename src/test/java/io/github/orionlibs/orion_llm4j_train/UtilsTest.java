@@ -33,9 +33,9 @@ public class UtilsTest extends ATest
         //[1, 2, 3, 1, 2] -> {(1, 2): 2, (2, 3): 1, (3, 1): 1}
         Map<Pair<Integer, Integer>, Integer> frequencies = new HashMap<>();
         frequencies.put(Pair.of(1, 2), 1);
-        Map<Pair<Integer, Integer>, Integer> result = Utils.getFrequencyOfConsecutivePairs(Arrays.asList(1, 2, 3, 1, 2));
+        Map<Pair<Integer, Integer>, Integer> result = Utils.getFrequencyOfConsecutivePairs(Arrays.asList(1, 2, 3, 1, 2), frequencies);
         assertEquals(3, result.size());
-        assertEquals(2, result.get(Pair.of(1, 2)));
+        assertEquals(3, result.get(Pair.of(1, 2)));
         assertEquals(1, result.get(Pair.of(2, 3)));
         assertEquals(1, result.get(Pair.of(3, 1)));
     }
