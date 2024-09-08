@@ -71,7 +71,7 @@ public abstract class Tokeniser
     }
 
 
-    public void save(String filePrefix) throws IOException
+    public void saveModel(String filePrefix) throws IOException
     {
         // Write the model file
         String modelFile = filePrefix + ".model";

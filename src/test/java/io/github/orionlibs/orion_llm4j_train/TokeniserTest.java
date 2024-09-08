@@ -2,6 +2,9 @@ package io.github.orionlibs.orion_llm4j_train;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -88,5 +91,35 @@ public class TokeniserTest extends ATest
         List<Integer> encoding = tokeniser.encode(specialsString, AllowedSpecialTokenMode.ALL);
         String decoded = tokeniser.decode(encoding);
         assertEquals(specialsString, decoded);
+    }
+
+
+    @Test
+    void test_handlingOfSpecialTokens_using_BytePairEncodingTokeniser()
+    {
+        BytePairEncodingTokeniser tokeniser = new BytePairEncodingTokeniser();
+        List<Integer> encoding = tokeniser.encode(specialsString);
+        String decoded = tokeniser.decode(encoding);
+        assertEquals(specialsString, decoded);
+    }
+
+
+    @Test
+    void test_savingAndLoadingModel_using_RegExTokeniser() throws IOException
+    {
+        RegExTokeniser tokeniser = new RegExTokeniser(null);
+        tokeniser.train(llamaText, 256 + 2);
+        tokeniser.registerSpecialTokens(new HashMap<>());
+        assertEquals(llamaText, tokeniser.decode(tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL)));
+        List<Integer> tokenIDs = tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL);
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        tokeniser.saveModel(tmpDir + "/test_tokenizer_tmp");
+        tokeniser = new RegExTokeniser(null);
+        tokeniser.loadModel(tmpDir + "/test_tokenizer_tmp.model");
+        assertEquals(llamaText, tokeniser.decode(tokenIDs));
+        assertEquals(llamaText, tokeniser.decode(tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL)));
+        assertEquals(tokenIDs, tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL));
+        new File(tmpDir + "/test_tokenizer_tmp.model").delete();
+        new File(tmpDir + "/test_tokenizer_tmp.vocab").delete();
     }
 }

@@ -11,6 +11,10 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * RegExTokeniser handles an optional RegEx splitting pattern.
+ * RegExTokeniser handles optional special tokens.
+ */
 public class RegExTokeniser extends Tokeniser
 {
     private static final String GPT2_SPLIT_PATTERN = "'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+";
@@ -42,7 +46,7 @@ public class RegExTokeniser extends Tokeniser
         {
             textChunks.add(matcher.group());
         }
-        // Input text preprocessing: convert chunks to lists of bytes
+        // Input text preprocessing: convert chunks to lists of bytes casted to integers
         List<List<Integer>> tokenIDsForChunks = new ArrayList<>();
         for(String chunk : textChunks)
         {
@@ -50,7 +54,7 @@ public class RegExTokeniser extends Tokeniser
             List<Integer> byteList = new ArrayList<>();
             for(byte b : bytes)
             {
-                byteList.add(b & 0xFF); // Autoboxing from byte to Byte
+                byteList.add(b & 0xFF);
             }
             tokenIDsForChunks.add(byteList);
         }
