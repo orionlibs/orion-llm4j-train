@@ -60,7 +60,7 @@ public class TokeniserTest extends ATest
             String decoded = tokeniser.decode(encoding);
             assertEquals(testStrings.get(i), decoded);
         }
-        String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/taylorswift.txt");
+        String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/training-text.txt");
         List<Integer> encoding = tokeniser.encode(taylorSwiftText);
         String decoded = tokeniser.decode(encoding);
         assertEquals(taylorSwiftText, decoded);
@@ -77,7 +77,7 @@ public class TokeniserTest extends ATest
             String decoded = tokeniser.decode(encoding);
             assertEquals(testStrings.get(i), decoded);
         }
-        String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/taylorswift.txt");
+        String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/training-text.txt");
         List<Integer> encoding = tokeniser.encode(taylorSwiftText);
         String decoded = tokeniser.decode(encoding);
         assertEquals(taylorSwiftText, decoded);
