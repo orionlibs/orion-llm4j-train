@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 public class TokeniserTest extends ATest
 {
     private static final List<String> testStrings = List.of("", "?", "hello world!!!? (안녕하세요!) lol123 😉");
-    //private static final List<String> testStringsWithoutSpecialCharacters = List.of("", "?", "hello world!!!? (!) lol123 ");
     private static final String specialsString = """
                     <|endoftext|>Hello world this is one document
                     <|endoftext|>And this is another document
@@ -57,7 +56,6 @@ public class TokeniserTest extends ATest
             List<Integer> encoding = tokeniser.encode(unpackText(testStrings.get(i)));
             String decoded = tokeniser.decode(encoding);
             assertEquals(testStrings.get(i), decoded);
-            //assertEquals(testStringsWithoutSpecialCharacters.get(i), decoded);
         }
         String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/taylorswift.txt");
         List<Integer> encoding = tokeniser.encode(taylorSwiftText);
@@ -75,7 +73,6 @@ public class TokeniserTest extends ATest
             List<Integer> encoding = tokeniser.encode(unpackText(testStrings.get(i)));
             String decoded = tokeniser.decode(encoding);
             assertEquals(testStrings.get(i), decoded);
-            //assertEquals(testStringsWithoutSpecialCharacters.get(i), decoded);
         }
         String taylorSwiftText = unpackText("file:/io/github/orionlibs/orion_llm4j_train/taylorswift.txt");
         List<Integer> encoding = tokeniser.encode(taylorSwiftText);
@@ -88,11 +85,8 @@ public class TokeniserTest extends ATest
     void test_handlingOfSpecialTokens()
     {
         RegExTokeniser tokeniser = new RegExTokeniser(null);
-        List<Integer> encoding = tokeniser.encode("👋", AllowedSpecialTokenMode.ALL);
-        //List<Integer> encoding = tokeniser.encode(specialsString, AllowedSpecialTokenMode.ALL);
+        List<Integer> encoding = tokeniser.encode(specialsString, AllowedSpecialTokenMode.ALL);
         String decoded = tokeniser.decode(encoding);
-        System.out.println(specialsString);
-        System.out.println(decoded);
-        //assertEquals(specialsString, decoded);
+        assertEquals(specialsString, decoded);
     }
 }

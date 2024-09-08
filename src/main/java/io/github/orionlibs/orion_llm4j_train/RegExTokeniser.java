@@ -50,7 +50,7 @@ public class RegExTokeniser extends Tokeniser
             List<Integer> byteList = new ArrayList<>();
             for(byte b : bytes)
             {
-                byteList.add((int)b); // Autoboxing from byte to Byte
+                byteList.add(b & 0xFF); // Autoboxing from byte to Byte
             }
             tokenIDsForChunks.add(byteList);
         }
@@ -200,7 +200,7 @@ public class RegExTokeniser extends Tokeniser
         // Convert all bytes to integers in range 0..255
         for(byte textByte : textBytes)
         {
-            tokenIDs.add((int)textByte);
+            tokenIDs.add(textByte & 0xFF);
         }
         while(tokenIDs.size() >= 2)
         {
@@ -244,14 +244,14 @@ public class RegExTokeniser extends Tokeniser
             byte[] chunkBytes = chunk.getBytes(StandardCharsets.UTF_8);
             List<Integer> chunkIds = encodeChunk(chunkBytes);
             boolean addChunk = true;
-            for(int chunkID : chunkIds)
+            /*for(int chunkID : chunkIds)
             {
                 if(chunkID < 0)
                 {
                     addChunk = false;
                     break;
                 }
-            }
+            }*/
             if(addChunk)
             {
                 ids.addAll(chunkIds);

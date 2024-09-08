@@ -34,7 +34,7 @@ public class BytePairEncodingTokeniser extends Tokeniser
         byte[] textBytes = text.getBytes(StandardCharsets.UTF_8);
         //list of integers in range 0..255
         List<Integer> tokenIDs = IntStream.range(0, textBytes.length)
-                        .mapToObj(i -> (int)textBytes[i])   // box each byte as Byte
+                        .mapToObj(i -> textBytes[i] & 0xFF)   // box each byte as Byte
                         .collect(Collectors.toList());
         //iteratively merge the most common pairs to create new tokens
         Map<Pair<Integer, Integer>, Integer> mergesTemp = new HashMap<>();
@@ -78,10 +78,10 @@ public class BytePairEncodingTokeniser extends Tokeniser
         List<Byte> textBytesToUse = new ArrayList<>();
         for(byte textByte : textBytes)
         {
-            if(textByte > 0)
-            {
-                textBytesToUse.add(textByte);
-            }
+            //if(textByte > 0)
+            //{
+            textBytesToUse.add(textByte);
+            //}
         }
         textBytes = new byte[textBytesToUse.size()];
         for(int i = 0; i < textBytesToUse.size(); i++)
@@ -92,7 +92,7 @@ public class BytePairEncodingTokeniser extends Tokeniser
         System.arraycopy(textBytes, 0, textBytes2, 0, textBytes2.length);
         //list of integers in range 0..255
         List<Integer> tokenIDs = IntStream.range(0, textBytes.length)
-                        .mapToObj(i -> (int)textBytes2[i])   // box each byte as Byte
+                        .mapToObj(i -> textBytes2[i] & 0xFF)   // box each byte as Byte
                         .collect(Collectors.toList());
         while(tokenIDs.size() >= 2)
         {
