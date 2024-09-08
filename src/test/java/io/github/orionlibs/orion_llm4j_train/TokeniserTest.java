@@ -41,7 +41,7 @@ public class TokeniserTest extends ATest
     {
         if(text.startsWith("file:"))
         {
-            return loadTestResource(text.substring("file:".length()));
+            return loadResourceAsString(text.substring("file:".length()));
         }
         else
         {

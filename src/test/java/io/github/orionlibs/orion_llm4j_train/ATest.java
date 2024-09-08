@@ -12,20 +12,8 @@ public class ATest
         System.setProperty("active.execution.profile", OrionDomain.testing);
     }
 
-    protected String loadJSONTestResource(String fileLocation)
-    {
-        try
-        {
-            return IOUtils.toString(this.getClass().getResourceAsStream(fileLocation));
-        }
-        catch(IOException e)
-        {
-            return "";
-        }
-    }
 
-
-    protected String loadTestResource(String fileLocation)
+    protected String loadResourceAsString(String fileLocation)
     {
         try
         {
