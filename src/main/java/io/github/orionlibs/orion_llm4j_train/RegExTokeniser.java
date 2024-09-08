@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
  */
 public class RegExTokeniser extends Tokeniser
 {
-    private static final String GPT2_SPLIT_PATTERN = "'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+";
-    private static final String GPT4_SPLIT_PATTERN = "'(?i:[sdmt]|ll|ve|re)|[^\\r\\n\\p{L}\\p{N}]?+\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]++[\\r\\n]*|\\s*[\\r\\n]|\\s+(?!\\S)|\\s+";
+    public static final String GPT2_SPLIT_PATTERN = "'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+";
+    public static final String GPT4_SPLIT_PATTERN = "'(?i:[sdmt]|ll|ve|re)|[^\\r\\n\\p{L}\\p{N}]?+\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]++[\\r\\n]*|\\s*[\\r\\n]|\\s+(?!\\S)|\\s+";
     private String patternRegEx;
     private Pattern pattern;
     private Map<String, Integer> specialTokens;
@@ -28,7 +28,7 @@ public class RegExTokeniser extends Tokeniser
     public RegExTokeniser(String patternRegEx)
     {
         super();
-        this.patternRegEx = patternRegEx != null && !patternRegEx.isEmpty() ? patternRegEx : GPT4_SPLIT_PATTERN;
+        this.patternRegEx = patternRegEx != null && !patternRegEx.isEmpty() ? patternRegEx : GPT2_SPLIT_PATTERN;
         this.pattern = Pattern.compile(this.patternRegEx);
         this.specialTokens = new HashMap<>();
         this.inverseSpecialTokens = new HashMap<>();
@@ -88,7 +88,7 @@ public class RegExTokeniser extends Tokeniser
                 mergedTokenIDs.add(tokenIDsTemp);
             }
             //save the merge
-            mergesTemp.put(pairWithHighestFrequency, idx);
+            mergesTemp.putIfAbsent(pairWithHighestFrequency, idx);
             byte[] firstArray = vocabularyTemp.get(pairWithHighestFrequency.getFirst());
             byte[] secondArray = vocabularyTemp.get(pairWithHighestFrequency.getSecond());
             byte[] temp = new byte[firstArray.length + secondArray.length];
@@ -247,19 +247,7 @@ public class RegExTokeniser extends Tokeniser
         {
             byte[] chunkBytes = chunk.getBytes(StandardCharsets.UTF_8);
             List<Integer> chunkIds = encodeChunk(chunkBytes);
-            boolean addChunk = true;
-            /*for(int chunkID : chunkIds)
-            {
-                if(chunkID < 0)
-                {
-                    addChunk = false;
-                    break;
-                }
-            }*/
-            if(addChunk)
-            {
-                ids.addAll(chunkIds);
-            }
+            ids.addAll(chunkIds);
         }
         return ids;
     }

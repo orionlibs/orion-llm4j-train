@@ -105,13 +105,33 @@ public class TokeniserTest extends ATest
 
 
     @Test
-    void test_savingAndLoadingModel_using_RegExTokeniser() throws IOException
+    void test_savingAndLoadingModel_using_RegExTokeniser_and_GPT2Pattern() throws IOException
     {
-        RegExTokeniser tokeniser = new RegExTokeniser(null);
+        RegExTokeniser tokeniser = new RegExTokeniser(RegExTokeniser.GPT2_SPLIT_PATTERN);
         tokeniser.train(llamaText, 256 + 2);
         tokeniser.registerSpecialTokens(new HashMap<>());
-        assertEquals(llamaText, tokeniser.decode(tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL)));
         List<Integer> tokenIDs = tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL);
+        assertEquals(llamaText, tokeniser.decode(tokenIDs));
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        tokeniser.saveModel(tmpDir + "/test_tokenizer_tmp");
+        tokeniser = new RegExTokeniser(null);
+        tokeniser.loadModel(tmpDir + "/test_tokenizer_tmp.model");
+        assertEquals(llamaText, tokeniser.decode(tokenIDs));
+        assertEquals(llamaText, tokeniser.decode(tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL)));
+        assertEquals(tokenIDs, tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL));
+        new File(tmpDir + "/test_tokenizer_tmp.model").delete();
+        new File(tmpDir + "/test_tokenizer_tmp.vocab").delete();
+    }
+
+
+    @Test
+    void test_savingAndLoadingModel_using_RegExTokeniser_and_GPT4Pattern() throws IOException
+    {
+        RegExTokeniser tokeniser = new RegExTokeniser(RegExTokeniser.GPT4_SPLIT_PATTERN);
+        tokeniser.train(llamaText, 256 + 2);
+        tokeniser.registerSpecialTokens(new HashMap<>());
+        List<Integer> tokenIDs = tokeniser.encode(llamaText, AllowedSpecialTokenMode.ALL);
+        assertEquals(llamaText, tokeniser.decode(tokenIDs));
         String tmpDir = System.getProperty("java.io.tmpdir");
         tokeniser.saveModel(tmpDir + "/test_tokenizer_tmp");
         tokeniser = new RegExTokeniser(null);
